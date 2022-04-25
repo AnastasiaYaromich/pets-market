@@ -9,7 +9,6 @@ import ru.yaromich.pets.market.cart.service.CartService;
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class CartController {
     private final CartService cartService;
     private final CartConverter cartConverter;
@@ -24,13 +23,8 @@ public class CartController {
         cartService.addToCart(id);
     }
 
-    @DeleteMapping("/deleteAll")
+    @GetMapping("/clear_cart")
     public void deleteAllItemsInCart() {
         cartService.clearCart();
     }
-//
-//    @DeleteMapping("delete/{id}")
-//    public void deleteProductInCartById(@PathVariable Long id) {
-//        cartService.deleteFromCart(id);
-//    }
 }

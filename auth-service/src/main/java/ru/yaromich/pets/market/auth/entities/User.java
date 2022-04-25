@@ -1,4 +1,4 @@
-package ru.yaromich.pets.market.core.entities;
+package ru.yaromich.pets.market.auth.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

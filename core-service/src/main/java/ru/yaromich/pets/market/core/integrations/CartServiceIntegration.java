@@ -2,20 +2,27 @@ package ru.yaromich.pets.market.core.integrations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import ru.yaromich.pets.market.api.CartDto;
 
 @Component
 @RequiredArgsConstructor
 public class CartServiceIntegration {
-    private final RestTemplate restTemplate;
+    private final WebClient cartServiceWebClient;
 
     public CartDto getCurrentCart() {
-        return restTemplate.getForObject("http://localhost:8193/market-cart/api/v1/cart", CartDto.class);
+        return  cartServiceWebClient.get()
+                .uri("/api/v1/cart")
+                .retrieve()
+                .bodyToMono(CartDto.class)
+                .block();
     }
 
     public void clearCart() {
-        restTemplate.delete("http://localhost:8193/market-cart/api/v1/cart/deleteAll");
+        cartServiceWebClient.get()
+                .uri("/api/v1/cart/clear_cart")
+                .retrieve()
+                .toBodilessEntity()
+                .block();
     }
-
 }

@@ -1,4 +1,4 @@
-package ru.yaromich.pets.market.core.utils;
+package ru.yaromich.pets.market.auth.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

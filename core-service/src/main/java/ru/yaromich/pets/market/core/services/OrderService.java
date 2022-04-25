@@ -1,20 +1,16 @@
 package ru.yaromich.pets.market.core.services;
 
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yaromich.pets.market.api.*;
-import ru.yaromich.pets.market.core.converters.OrderConverter;
 import ru.yaromich.pets.market.core.entities.Order;
 import ru.yaromich.pets.market.core.entities.OrderItem;
 import ru.yaromich.pets.market.core.entities.Product;
-import ru.yaromich.pets.market.core.entities.User;
 import ru.yaromich.pets.market.core.exceptions.ResourceNotFoundException;
 import ru.yaromich.pets.market.core.integrations.CartServiceIntegration;
 import ru.yaromich.pets.market.core.repositories.OrderItemRepository;
 import ru.yaromich.pets.market.core.repositories.OrderRepository;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
-    private final UserService userService;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductService productService;
 
-
-    public List<Order> findAllUserOrders(String userName) {
-        User user = userService.findByUsername(userName).orElseThrow(() -> new ResourceNotFoundException("Пользователь не найден"));
-        return orderRepository.findAllByUser(user);
+    public List<Order> findAllUserOrders(String username) {
+        return orderRepository.findAllByUsername(username);
     }
 
     public Order findLastUserOrder(List<Order> orders) {
@@ -55,11 +48,9 @@ public class OrderService {
 
     @Transactional
     public void createOrderForUser(String userName) {
-        User user = userService.findByUsername(userName).orElseThrow(() -> new ResourceNotFoundException("Пользователь не найден"));
         CartDto c = cartServiceIntegration.getCurrentCart();
-
         Order order = new Order();
-        order.setUser(user);
+        order.setUsername(userName);
         order.setTotalPrice(c.getTotalPrice());
 
         List<OrderItem> orderItems = new ArrayList<>();
@@ -79,7 +70,6 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
         cartServiceIntegration.clearCart();
     }
-
 }
 
 

@@ -1,4 +1,4 @@
-package ru.yaromich.pets.market.core.services;
+package ru.yaromich.pets.market.auth.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,9 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.yaromich.pets.market.core.entities.Role;
-import ru.yaromich.pets.market.core.entities.User;
-import ru.yaromich.pets.market.core.repositories.UserRepository;
+import ru.yaromich.pets.market.auth.entities.Role;
+import ru.yaromich.pets.market.auth.entities.User;
+import ru.yaromich.pets.market.auth.repositories.UserRepository;
+
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
