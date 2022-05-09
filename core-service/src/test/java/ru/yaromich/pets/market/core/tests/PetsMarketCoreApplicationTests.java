@@ -1,4 +1,4 @@
-package ru.yaromich.pets.market.core;
+package ru.yaromich.pets.market.core.tests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +8,7 @@ class PetsMarketCoreApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

@@ -42,6 +42,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>ru.yaromich.pets.market</groupId>
             <artifactId>api</artifactId>
