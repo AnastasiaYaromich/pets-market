@@ -6,6 +6,7 @@ import ru.yaromich.pets.market.api.CartDto;
 import ru.yaromich.pets.market.api.StringResponce;
 import ru.yaromich.pets.market.cart.converters.CartConverter;
 import ru.yaromich.pets.market.cart.service.CartService;
+import ru.yaromich.pets.market.cart.utils.Cart;
 
 import java.util.UUID;
 
@@ -28,9 +29,14 @@ public class CartController {
     }
 
     @GetMapping("/{guestCartId}/add/{productId}")
-    public void addProductToCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId,@PathVariable Long productId) {
+    public void addProductToCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId, @PathVariable Long productId) {
         String currentCartId = selectCartId(username, guestCartId);
         cartService.addToCart(currentCartId, productId);
+    }
+
+    @GetMapping("/{guestCartId}/merge_cart")
+    public CartDto createMergeCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
+        return  cartConverter.entityToDto(cartService.getMergeCart(username, guestCartId));
     }
 
     @GetMapping("/{guestCartId}/clear")

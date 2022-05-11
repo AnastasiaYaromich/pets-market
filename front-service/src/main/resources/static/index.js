@@ -72,6 +72,12 @@ angular.module('market').controller('indexController', function ($scope, $rootSc
                     $scope.user.password = null;
 
                     $location.path('/');
+
+                    $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.petsMarketGuestCartId + '/merge_cart/')
+                        .then(function (response) {
+                            $scope.cart = response.data;
+                        });
+
                 }
             }, function errorCallback(response) {
         });
