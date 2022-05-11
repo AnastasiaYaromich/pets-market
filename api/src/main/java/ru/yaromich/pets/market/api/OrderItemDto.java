@@ -2,13 +2,15 @@ package ru.yaromich.pets.market.api;
 import java.math.BigDecimal;
 
 public class OrderItemDto {
+    private Long productId;
     private String productTitle;
     private BigDecimal pricePerProduct;
     private int quantity;
     private BigDecimal price;
 
 
-    public OrderItemDto(String productTitle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
+    public OrderItemDto(Long productId,String productTitle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
+        this.productId = productId;
         this.productTitle = productTitle;
         this.quantity = quantity;
         this.pricePerProduct = pricePerProduct;
@@ -45,4 +47,8 @@ public class OrderItemDto {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    public void setProductId(Long productId) { this.productId = productId; }
+
+    public Long getProductId() { return productId; }
 }

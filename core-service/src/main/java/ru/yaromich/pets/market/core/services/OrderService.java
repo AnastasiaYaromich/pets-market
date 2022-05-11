@@ -15,60 +15,41 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final ProductService productService;
 
-    public List<Order> findAllUserOrders(String username) {
-        return orderRepository.findAllByUsername(username);
-    }
-
-    public Order findLastUserOrder(List<Order> orders) {
-
-        List<LocalDateTime> localDateTimes = new ArrayList<>();
-
-        for (Order order: orders) {
-            localDateTimes.add(order.getCreatedAt());
-        }
-
-        LocalDateTime maxTime = localDateTimes.get(0);
-
-        for (LocalDateTime localDateTime : localDateTimes) {
-            if(localDateTime.compareTo(maxTime) > 0) {
-                maxTime = localDateTime;
-            }
-        }
-        return orderRepository.findByCreatedAt(maxTime);
-    }
-
     @Transactional
-    public void createOrderForUser(String userName) {
-        CartDto c = cartServiceIntegration.getCurrentCart();
-        Order order = new Order();
-        order.setUsername(userName);
-        order.setTotalPrice(c.getTotalPrice());
-
-        List<OrderItem> orderItems = new ArrayList<>();
-
-        for (CartItemDto cartItem : c.getItems()) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setPrice(cartItem.getPrice());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPricePerProduct(cartItem.getPricePerProduct());
-            Product product = productService.findById(cartItem.getProductId()).orElseThrow(() -> new ResourceNotFoundException("fdfdg"));
-            orderItem.setProduct(product);
-            orderItems.add(orderItem);
+    public void createNewOrder(String username, String address, String phone) {
+        CartDto cart = cartServiceIntegration.getCurrentUserCart(username);
+        if(cart.getItems().isEmpty()) {
+            throw new IllegalArgumentException("Нельзя оформить заказ для пустой корзины");
         }
-        order.setItems(orderItems);
+        Order order = new Order();
+        order.setTotalPrice(cart.getTotalPrice());
+        order.setUsername(username);
+        order.setAddress(address);
+        order.setPhone(phone);
+        order.setItems(new ArrayList<>());
+        cart.getItems().stream().forEach(ci -> {
+            OrderItem oi = new OrderItem();
+            oi.setOrder(order);
+            oi.setPrice(ci.getPrice());
+            oi.setQuantity(ci.getQuantity());
+            oi.setPricePerProduct(ci.getPricePerProduct());
+            oi.setProduct(productService.findById(ci.getProductId()).orElseThrow(() ->
+                    new ResourceNotFoundException("Product not found")));
+            order.getItems().add(oi);
+        });
         orderRepository.save(order);
-        orderItemRepository.saveAll(orderItems);
-        cartServiceIntegration.clearCart();
+        cartServiceIntegration.clearCart(username);
+    }
+
+    public List<Order> findUserOrders(String username) {
+        return orderRepository.findAllByUsername(username);
     }
 }
 

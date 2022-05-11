@@ -1,12 +1,15 @@
 package ru.yaromich.pets.market.core.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yaromich.pets.market.api.JwtRequest;
 import ru.yaromich.pets.market.api.OrderDto;
+import ru.yaromich.pets.market.api.OrderRequest;
 import ru.yaromich.pets.market.core.converters.OrderConverter;
-import ru.yaromich.pets.market.core.entities.Order;
 import ru.yaromich.pets.market.core.services.OrderService;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/orders")
@@ -15,16 +18,15 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
 
-    @GetMapping()
-    public OrderDto getLastUserOrder(@RequestHeader String username) {
-        List<Order> orders = orderService.findAllUserOrders(username);
-        return orderConverter.entitySingleToDto(orderService.findLastUserOrder(orders));
+    @GetMapping
+    public List<OrderDto> getUserOrders(@RequestHeader String username) {
+        return orderService.findUserOrders(username).stream().map(orderConverter::entityToDto).collect(Collectors.toList());
     }
 
-    @PostMapping("/create")
-    public void createNewOrder(@RequestHeader String username) {
-        System.out.println(username);
-       orderService.createOrderForUser(username);
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createNewOrder(@RequestHeader String username, @RequestBody OrderRequest orderRequest) {
+        orderService.createNewOrder(username, orderRequest.getAddress(), orderRequest.getPhone());
     }
 }
 

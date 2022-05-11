@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pets Market</a>
+                    <a class="nav-link" href="#!/">Pets Market</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#!/store">Каталог товаров</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#!/cart">Корзина</a>
+                </li>
+                <li class="nav-item" ng-show="isUserLoggedIn()">
+                    <a class="nav-link" href="#!/orders">Мои заказы</a>
+                </li>
+                <li class="nav-item" ng-show="!isUserLoggedIn()">
+                    <a class="nav-link" href="#!/register">Зарегистрироваться</a>
                 </li>
 
                 <li class="nav-item" ng-show="!isUserLoggedIn()">
@@ -43,87 +56,15 @@
             </ul>
         </div>
     </nav>
-    <p></p>
-    <h1>Pets Market</h1>
-    <p></p>
-    <h3>Список товаров</h3>
-    <p></p>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td>Цена</td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in products">
-            <td>{{p.id}}</td>
-            <td>{{p.title}}</td>
-            <td>{{p.price}}</td>
-            <td>
-                <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <p></p>
-    <h3>Корзина</h3>
-    <p></p>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <td>Название</td>
-            <td>Количество</td>
-            <td>Цена</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="ci in cart.items">
-            <td>{{ci.productTitle}}</td>
-            <td>{{ci.quantity}}</td>
-            <td>{{ci.pricePerProduct + ' x ' + ci.quantity + ' = ' + ci.price}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Итого:</td>
-            <td>{{cart.totalPrice}}</td>
-        </tr>
-        </tbody>
-    </table>
-    <p></p>
 
+    <ng-view></ng-view>
 
-    <button class="btn btn-primary" ng-click="createOrder()">Оформить заказ</button>
-
-
-    <p></p>
-    <h3>Заказ</h3>
-    <p></p>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <td>Название</td>
-            <td>Количество</td>
-            <td>Цена</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="oi in order.items">
-            <td>{{oi.productTitle}}</td>
-            <td>{{oi.quantity}}</td>
-            <td>{{oi.pricePerProduct + ' x ' + oi.quantity + ' = ' + oi.price}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Итого:</td>
-            <td>{{order.totalPrice}}</td>
-        </tr>
-        </tbody>
-    </table>
-    <p></p>
-
+    <script src="index.js"></script>
+    <script src="store/store.js"></script>
+    <script src="cart/cart.js"></script>
+    <script src="orders/orders.js"></script>
+    <script src="welcome/welcome.js"></script>
+    <script src="register/register.js"></script>
 </div>
 </body>
 </html>

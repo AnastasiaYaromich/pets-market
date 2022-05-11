@@ -3,8 +3,11 @@ package ru.yaromich.pets.market.cart.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.yaromich.pets.market.api.CartDto;
+import ru.yaromich.pets.market.api.StringResponce;
 import ru.yaromich.pets.market.cart.converters.CartConverter;
 import ru.yaromich.pets.market.cart.service.CartService;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/cart")
@@ -13,18 +16,33 @@ public class CartController {
     private final CartService cartService;
     private final CartConverter cartConverter;
 
-    @GetMapping
-    public CartDto getCurrentCart() {
-        return cartConverter.entityToDto(cartService.getCurrentCart());
+    @GetMapping("/generate_id")
+    public StringResponce generateGuestCartId() {
+        return new StringResponce(UUID.randomUUID().toString());
     }
 
-    @GetMapping("/add/{id}")
-    public void addToCart(@PathVariable Long id) {
-        cartService.addToCart(id);
+    @GetMapping("/{guestCartId}")
+    public CartDto getCurrentCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
+        String currentCartId = selectCartId(username, guestCartId);
+        return cartConverter.entityToDto(cartService.getCurrentCart(currentCartId));
     }
 
-    @GetMapping("/clear_cart")
-    public void deleteAllItemsInCart() {
-        cartService.clearCart();
+    @GetMapping("/{guestCartId}/add/{productId}")
+    public void addProductToCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId,@PathVariable Long productId) {
+        String currentCartId = selectCartId(username, guestCartId);
+        cartService.addToCart(currentCartId, productId);
+    }
+
+    @GetMapping("/{guestCartId}/clear")
+    public void clearCurrentCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
+        String currentCartId = selectCartId(username, guestCartId);
+        cartService.clearCart(currentCartId);
+    }
+
+    private String selectCartId(String username, String guestCartId) {
+        if(username != null) {
+            return username;
+        }
+        return guestCartId;
     }
 }

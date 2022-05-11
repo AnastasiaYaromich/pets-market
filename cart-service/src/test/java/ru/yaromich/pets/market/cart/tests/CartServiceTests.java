@@ -21,17 +21,17 @@ public class CartServiceTests {
     private ProductServiceIntegration productServiceIntegration;
 
 
-    @Test
-    public void addToCartTest() {
-        ProductDto productDto = new ProductDto();
-        productDto.setId(1L);
-        productDto.setTitle("Cat Chow");
-        productDto.setPrice(BigDecimal.valueOf(100));
-        productDto.setCategoryTitle("Эконом класс");
-        Mockito.doReturn(productDto)
-                .when(productServiceIntegration)
-                .findById(productDto.getId());
-        cartService.addToCart(productDto.getId());
-        Assertions.assertEquals(1, cartService.getCurrentCart().getItems().size());
-    }
+//    @Test
+//    public void addToCartTest() {
+//        ProductDto productDto = new ProductDto();
+//        productDto.setId(1L);
+//        productDto.setTitle("Cat Chow");
+//        productDto.setPrice(BigDecimal.valueOf(100));
+//        productDto.setCategoryTitle("Эконом класс");
+//        Mockito.doReturn(productDto)
+//                .when(productServiceIntegration)
+//                .findById(productDto.getId());
+//        cartService.addToCart(productDto.getId());
+//        Assertions.assertEquals(1, cartService.getCurrentCart().getItems().size());
+//    }
 }

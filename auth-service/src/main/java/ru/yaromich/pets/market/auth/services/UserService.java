@@ -9,10 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.yaromich.pets.market.auth.entities.Role;
 import ru.yaromich.pets.market.auth.entities.User;
+import ru.yaromich.pets.market.auth.repositories.RoleRepository;
 import ru.yaromich.pets.market.auth.repositories.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,10 +23,28 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final RoleService roleService;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public Optional<User> findByemail(String email) { return userRepository.findByemail(email); }
+
+    @Transactional
+    public void registerNewUser(String username, String confirmPassword, String email) {
+        User user = new User();
+        user.setPassword(confirmPassword);
+        user.setUsername(username);
+        user.setEmail(email);
+
+        List<Role> roleList = new ArrayList();
+        roleList.add(roleService.getUserRole());
+        user.setRoles(roleList);
+
+        userRepository.save(user);
+    }
+
 
     @Override
     @Transactional
