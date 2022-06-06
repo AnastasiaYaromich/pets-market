@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -15,6 +18,10 @@ import reactor.core.publisher.Mono;
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private RouterValidator routerValidator;
+
 
     public JwtAuthFilter() {
         super(Config.class);
@@ -29,7 +36,10 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
                 return this.onError(exchange, "Invalid header username", HttpStatus.BAD_REQUEST);
             }
 
-            if (!isAuthMissing(request)) {
+            if(routerValidator.isSecured.test(request)) {
+                if(isAuthMissing(request)) {
+                    return  this.onError(exchange, "Authorization header is missing in request", HttpStatus.UNAUTHORIZED);
+                }
                 final String token = getAuthHeader(request);
                 if (jwtUtil.isInvalid(token)) {
                     return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);

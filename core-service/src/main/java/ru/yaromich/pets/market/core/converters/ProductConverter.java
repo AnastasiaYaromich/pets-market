@@ -8,6 +8,7 @@ import java.util.List;
 
 @Component
 public class ProductConverter {
+
     public ProductDto entityToDto(Product p) {
         ProductDto productDto = new ProductDto();
         productDto.setId(p.getId());

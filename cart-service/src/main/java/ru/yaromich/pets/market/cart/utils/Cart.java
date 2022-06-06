@@ -29,6 +29,10 @@ public class Cart {
         recalculate();
     }
 
+    public void remove(Long productId) {
+        items.removeIf(p -> p.getProductId().equals(productId));
+    }
+
     public void clear() {
         items.clear();
         totalPrice = BigDecimal.ZERO;

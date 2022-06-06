@@ -34,10 +34,10 @@ public class CartController {
         cartService.addToCart(currentCartId, productId);
     }
 
-    @GetMapping("/{guestCartId}/merge_cart")
-    public CartDto createMergeCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
-        return  cartConverter.entityToDto(cartService.getMergeCart(username, guestCartId));
-    }
+//    @GetMapping("/{guestCartId}/merge_cart")
+//    public CartDto createMergeCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {
+//        return  cartConverter.entityToDto(cartService.getMergeCart(username, guestCartId));
+//    }
 
     @GetMapping("/{guestCartId}/clear")
     public void clearCurrentCart(@RequestHeader(required = false) String username, @PathVariable String guestCartId) {

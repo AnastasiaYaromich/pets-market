@@ -48,14 +48,13 @@
             if ($localStorage.petsMarketUser) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.petsMarketUser.token;
             }
-
-            if (!$localStorage.petsMarketGuestCartId) {
-                $http.get('http://localhost:5555/cart/api/v1/cart/generate_id')
-                    .then(function (response) {
-                        $localStorage.petsMarketGuestCartId = response.data.value;
-                    });
-            }
         }
+              if (!$localStorage.petsMarketGuestCartId) {
+                        $http.get('http://localhost:5555/cart/api/v1/cart/generate_id')
+                            .then(function (response) {
+                                $localStorage.petsMarketGuestCartId = response.data.value;
+                            });
+                    }
     }
 })();
 
@@ -73,10 +72,10 @@ angular.module('market').controller('indexController', function ($scope, $rootSc
 
                     $location.path('/');
 
-                    $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.petsMarketGuestCartId + '/merge_cart/')
-                        .then(function (response) {
-                            $scope.cart = response.data;
-                        });
+//                    $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.petsMarketGuestCartId + '/merge_cart/')
+//                        .then(function (response) {
+//                            $scope.cart = response.data;
+//                        });
 
                 }
             }, function errorCallback(response) {

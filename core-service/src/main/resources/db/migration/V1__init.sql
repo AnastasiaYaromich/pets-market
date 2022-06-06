@@ -25,7 +25,15 @@ insert into products (title, price, category_id) values
 ('Sanabelle', 1100.00, 3),
 ('Royal Canin', 900.00, 2),
 ('Whiskas', 600.00, 1),
-('Orijen', 1500.00, 4);
+('Orijen', 1500.00, 4),
+('Club4Paws', 400.00, 2),
+('Primordial', 1150.00, 4),
+('Natures Protection', 800.00, 2),
+('Unica Natura', 850.00, 2),
+('Farmina', 950.00, 3),
+('Brit Care', 950.00, 3),
+('Purina One', 500.00, 1),
+('Zilli', 850.00, 3);
 
 create table orders
 (

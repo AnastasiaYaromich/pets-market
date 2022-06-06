@@ -1,6 +1,9 @@
 package ru.yaromich.pets.market.core.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.yaromich.pets.market.api.ProductDto;
 import ru.yaromich.pets.market.core.entities.Product;
@@ -15,8 +18,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> findAll(int page, int pageSize, Specification<Product> specification) {
+        return productRepository.findAll(specification, PageRequest.of(page, pageSize));
     }
 
     public Optional<Product> findByTitle(String title) {

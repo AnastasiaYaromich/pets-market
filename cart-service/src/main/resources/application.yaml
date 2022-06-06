@@ -6,6 +6,6 @@ server:
 integrations:
   product-service:
     url: http://localhost:8192/market-core/
-    connect-timeout: 5000
+    connect-timeout: 50000
     read-timeout: 10000
     write-timeout: 5000
