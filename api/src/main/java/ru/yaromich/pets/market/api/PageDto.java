@@ -1,9 +1,14 @@
 package ru.yaromich.pets.market.api;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 
+@Schema(description = "Модель страницы")
 public class PageDto {
+    @Schema (description = "Список продуктов на странице", required = true)
     private List<ProductDto> content;
+
+    @Schema (description = "Количество страниц", required = true, example = "1")
     private int totalPages;
 
     public PageDto(List<ProductDto> content, int totalPages) {

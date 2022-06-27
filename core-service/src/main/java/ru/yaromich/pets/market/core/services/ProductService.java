@@ -6,10 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.yaromich.pets.market.api.ProductDto;
+import ru.yaromich.pets.market.core.converters.PageConverter;
 import ru.yaromich.pets.market.core.entities.Product;
 import ru.yaromich.pets.market.core.exceptions.ResourceNotFoundException;
 import ru.yaromich.pets.market.core.repositories.ProductRepository;
-import java.util.List;
+import ru.yaromich.pets.market.core.repositories.specifications.ProductsSpecifications;
+
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -17,9 +20,10 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final PageConverter pageConverter;
 
-    public Page<Product> findAll(int page, int pageSize, Specification<Product> specification) {
-        return productRepository.findAll(specification, PageRequest.of(page, pageSize));
+    public Page<Product> findAll(int page, int pageSize, Specification specification) {
+        return productRepository.findAll(specification, PageRequest.of(page - 1, pageSize));
     }
 
     public Optional<Product> findByTitle(String title) {

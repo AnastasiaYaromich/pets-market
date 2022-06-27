@@ -1,11 +1,23 @@
 package ru.yaromich.pets.market.api;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 
+@Schema(description = "Модель позиции в заказе")
 public class OrderItemDto {
+    @Schema(description = "ID продукта", required = true, example = "1")
     private Long productId;
+
+    @Schema(description = "Название продукта", required = true, maxLength = 255, minLength = 3, example = "Acana")
     private String productTitle;
+
+    @Schema(description = "Цена за одну единицу продукта", required = true, example = "1200.0")
     private BigDecimal pricePerProduct;
+
+    @Schema(description = "Количество продукта в заказе", required = true, example = "2")
     private int quantity;
+
+    @Schema(description = "Общая стоимость заказа", required = true, example = "2400.0")
     private BigDecimal price;
 
 

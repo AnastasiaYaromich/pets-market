@@ -6,12 +6,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.yaromich.pets.market.api.RegisterUserDto;
 import ru.yaromich.pets.market.auth.entities.Role;
 import ru.yaromich.pets.market.auth.entities.User;
+import ru.yaromich.pets.market.auth.exceptions.ResourceNotFoundException;
 import ru.yaromich.pets.market.auth.repositories.RoleRepository;
 import ru.yaromich.pets.market.auth.repositories.UserRepository;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,27 +26,12 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
-    public Optional<User> findByemail(String email) { return userRepository.findByemail(email); }
-
-    @Transactional
-    public void registerNewUser(String username, String confirmPassword, String email) {
-        User user = new User();
-        user.setPassword(confirmPassword);
-        user.setUsername(username);
-        user.setEmail(email);
-
-        List<Role> roleList = new ArrayList();
-        roleList.add(roleService.getUserRole());
-        user.setRoles(roleList);
-
-        userRepository.save(user);
-    }
-
 
     @Override
     @Transactional
@@ -55,5 +42,20 @@ public class UserService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void registerNewUser(RegisterUserDto registerUserDto) {
+        if (registerUserDto.getPassword().equals(registerUserDto.getConfirmPassword())) {
+            String bcryptCachedPassword = passwordEncoder.encode(registerUserDto.getPassword());
+            Role role = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+            User user = new User();
+            user.setUsername(registerUserDto.getUsername());
+            user.setEmail(registerUserDto.getEmail());
+            user.setPassword(bcryptCachedPassword);
+            user.setRoles(List.of(role));
+            userRepository.save(user);
+        } else
+            throw new IllegalStateException("Password and confirm password are different");
     }
 }

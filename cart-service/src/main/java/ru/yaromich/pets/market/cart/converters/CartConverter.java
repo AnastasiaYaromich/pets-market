@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.yaromich.pets.market.api.CartDto;
 import ru.yaromich.pets.market.cart.utils.Cart;
-
 import java.util.stream.Collectors;
 
 @Component

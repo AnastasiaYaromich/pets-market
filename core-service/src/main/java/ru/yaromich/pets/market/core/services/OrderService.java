@@ -6,12 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yaromich.pets.market.api.*;
 import ru.yaromich.pets.market.core.entities.Order;
 import ru.yaromich.pets.market.core.entities.OrderItem;
-import ru.yaromich.pets.market.core.entities.Product;
 import ru.yaromich.pets.market.core.exceptions.ResourceNotFoundException;
 import ru.yaromich.pets.market.core.integrations.CartServiceIntegration;
-import ru.yaromich.pets.market.core.repositories.OrderItemRepository;
 import ru.yaromich.pets.market.core.repositories.OrderRepository;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
