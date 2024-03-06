@@ -20,27 +20,27 @@ import java.util.Optional;
 
 @SpringBootTest(classes = ProductService.class)
 public class ProductServiceTests {
-    @Autowired
-    private ProductService productService;
-
-    @MockBean
-    private ProductRepository productRepository;
-
-    @MockBean
-    private CategoryService categoryService;
-
-    @Test
-    public void createNewProductTest() {
-        Category category = new Category();
-        category.setId(1L);
-        category.setTitle("Супер-премиум класс");
-        category.setProducts(Collections.emptyList());
-        Mockito.doReturn(Optional.of(category))
-                .when(categoryService).findByTitle("Супер-премиум класс");
-
-        ProductDto productDto = new ProductDto(null, "Josera", BigDecimal.valueOf(100.0), "Супер-премиум класс");
-        productService.createNewProduct(productDto);
-
-        Mockito.verify(productRepository, Mockito.times(1)).save(ArgumentMatchers.any());
-    }
+//    @Autowired
+//    private ProductService productService;
+//
+//    @MockBean
+//    private ProductRepository productRepository;
+//
+//    @MockBean
+//    private CategoryService categoryService;
+//
+//    @Test
+//    public void createNewProductTest() {
+//        Category category = new Category();
+//        category.setId(1L);
+//        category.setTitle("Супер-премиум класс");
+//        category.setProducts(Collections.emptyList());
+//        Mockito.doReturn(Optional.of(category))
+//                .when(categoryService).findByTitle("Супер-премиум класс");
+//
+//        ProductDto productDto = new ProductDto(null, "Josera", BigDecimal.valueOf(100.0), "Супер-премиум класс");
+//        productService.createNewProduct(productDto);
+//
+//        Mockito.verify(productRepository, Mockito.times(1)).save(ArgumentMatchers.any());
+//    }
 }

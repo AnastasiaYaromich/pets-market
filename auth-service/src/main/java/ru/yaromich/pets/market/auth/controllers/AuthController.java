@@ -21,6 +21,7 @@ import ru.yaromich.pets.market.auth.utils.JwtTokenUtil;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @Tag(name = "Аутентификация", description = "Методы работы с аутентификацией")
 public class AuthController {
     private final UserService userService;

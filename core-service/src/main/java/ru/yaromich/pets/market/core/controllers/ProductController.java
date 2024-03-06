@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 @Tag(name = "Продукты", description = "Методы работы с продуктами")

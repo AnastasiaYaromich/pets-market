@@ -14,6 +14,7 @@ import ru.yaromich.pets.market.cart.service.CartService;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 @Tag(name = "Корзина", description = "Методы работы с корзиной")
@@ -32,6 +33,7 @@ public class CartController {
             }
     )
     @GetMapping("/generate_id")
+    @CrossOrigin
     public StringResponce generateGuestCartId() {
         return new StringResponce(UUID.randomUUID().toString());
     }

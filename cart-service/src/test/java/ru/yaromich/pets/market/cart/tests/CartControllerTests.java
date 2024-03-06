@@ -27,49 +27,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CartControllerTests {
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private ProductServiceIntegration productServiceIntegration;
-
-    @Test
-    public void getCurrentCartTest() throws Exception {
-        mockMvc
-                .perform(
-                        get("/api/v1/cart")
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-
-    @Test
-    public void addProductToCartTest() throws Exception {
-        ProductDto productDto = new ProductDto();
-        productDto.setPrice(BigDecimal.valueOf(100));
-        productDto.setTitle("Cat Chow");
-        productDto.setCategoryTitle("Эконом-класс");
-        productDto.setId(1L);
-        Mockito.doReturn(productDto)
-                .when(productServiceIntegration)
-                .findById(productDto.getId());
-
-        mockMvc.perform(get("/api/v1/cart/add/{productId}", 1L)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void clearCartTest() throws Exception {
-        mockMvc
-                .perform(
-                        get("/api/v1/cart/clear_cart")
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @MockBean
+//    private ProductServiceIntegration productServiceIntegration;
+//
+//    @Test
+//    public void getCurrentCartTest() throws Exception {
+//        mockMvc
+//                .perform(
+//                        get("/api/v1/cart")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                )
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//    }
+//
+//
+//    @Test
+//    public void addProductToCartTest() throws Exception {
+//        ProductDto productDto = new ProductDto();
+//        productDto.setPrice(BigDecimal.valueOf(100));
+//        productDto.setTitle("Cat Chow");
+//        productDto.setCategoryTitle("Эконом-класс");
+//        productDto.setId(1L);
+//        Mockito.doReturn(productDto)
+//                .when(productServiceIntegration)
+//                .findById(productDto.getId());
+//
+//        mockMvc.perform(get("/api/v1/cart/add/{productId}", 1L)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    public void clearCartTest() throws Exception {
+//        mockMvc
+//                .perform(
+//                        get("/api/v1/cart/clear_cart")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                )
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//    }
 }

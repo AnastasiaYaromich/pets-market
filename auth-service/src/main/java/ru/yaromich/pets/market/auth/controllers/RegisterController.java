@@ -10,6 +10,7 @@ import ru.yaromich.pets.market.api.*;
 import ru.yaromich.pets.market.auth.services.UserService;
 
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @Tag(name = "Регистрация", description = "Методы работы с регистрацией")
 public class RegisterController {

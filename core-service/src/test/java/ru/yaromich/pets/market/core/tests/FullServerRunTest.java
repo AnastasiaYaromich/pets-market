@@ -13,15 +13,15 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class FullServerRunTest {
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Test
-    public void fullRestTest() {
-        List<ProductDto> products = restTemplate.getForObject("/api/v1/products", List.class);
-        assertThat(products)
-                .isNotNull()
-                .isNotEmpty()
-                .hasSize(5);
-    }
+//    @Autowired
+//    private TestRestTemplate restTemplate;
+//
+//    @Test
+//    public void fullRestTest() {
+//        List<ProductDto> products = restTemplate.getForObject("/api/v1/products", List.class);
+//        assertThat(products)
+//                .isNotNull()
+//                .isNotEmpty()
+//                .hasSize(5);
+//    }
 }

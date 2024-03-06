@@ -12,8 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.util.Collections;
 
-
-
 @JsonTest
 public class JsonTests {
     @Autowired

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/v1/orders")
 @RequiredArgsConstructor
 @Tag(name = "Заказы", description = "Методы работы с заказами")
